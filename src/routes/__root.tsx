@@ -76,15 +76,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#fafafa" },
+      { title: "Pockhet — Your AI Financial Copilot" },
+      { name: "description", content: "AI-powered personal finance. Upload your transactions and let Pockhet build your wealth strategy." },
+      { property: "og:title", content: "Pockhet — Your AI Financial Copilot" },
+      { property: "og:description", content: "AI-powered personal finance. Upload your transactions and let Pockhet build your wealth strategy." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       {
