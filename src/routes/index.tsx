@@ -25,6 +25,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Welcome() {
+  const navigate = useNavigate();
   return (
     <PhoneShell>
       <div className="flex flex-1 flex-col px-7 pt-16 pb-10">
