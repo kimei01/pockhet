@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppScreen } from "@/components/AppScreen";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Sparkles,
   TrendingUp,
@@ -8,6 +8,7 @@ import {
   Activity,
   AlertCircle,
   ChevronRight,
+  Search,
 } from "lucide-react";
 
 export const Route = createFileRoute("/intelligence")({
