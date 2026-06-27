@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PhoneShell } from "@/components/PhoneShell";
 import { useEffect, useState } from "react";
 import { Check, Loader2 } from "lucide-react";
+import { isDemo } from "@/lib/demo";
 
 export const Route = createFileRoute("/processing")({
   head: () => ({ meta: [{ title: "Analyzing — Pockhet" }] }),
@@ -20,15 +21,18 @@ const steps = [
 function Processing() {
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
+  const fast = typeof window !== "undefined" && isDemo();
+  const stepMs = fast ? 380 : 850;
+  const finishMs = fast ? 300 : 600;
 
   useEffect(() => {
     if (active >= steps.length) {
-      const t = setTimeout(() => navigate({ to: "/home" }), 600);
+      const t = setTimeout(() => navigate({ to: "/home" }), finishMs);
       return () => clearTimeout(t);
     }
-    const t = setTimeout(() => setActive((a) => a + 1), 850);
+    const t = setTimeout(() => setActive((a) => a + 1), stepMs);
     return () => clearTimeout(t);
-  }, [active, navigate]);
+  }, [active, navigate, stepMs, finishMs]);
 
   const progress = Math.min(100, (active / steps.length) * 100);
 

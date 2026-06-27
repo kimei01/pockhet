@@ -1,7 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { PhoneShell } from "@/components/PhoneShell";
 import { Logo } from "@/components/Logo";
 import { ArrowUpRight, Play, Sparkles } from "lucide-react";
+import { enableDemo } from "@/lib/demo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Welcome() {
+  const navigate = useNavigate();
   return (
     <PhoneShell>
       <div className="flex flex-1 flex-col px-7 pt-16 pb-10">
@@ -61,12 +63,16 @@ function Welcome() {
             Upload Transactions
             <ArrowUpRight className="size-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
-          <Link
-            to="/home"
-            className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-transparent text-[15px] font-medium text-foreground ring-1 ring-border"
+          <button
+            type="button"
+            onClick={() => {
+              enableDemo();
+              navigate({ to: "/processing" });
+            }}
+            className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-transparent text-[15px] font-medium text-foreground ring-1 ring-border transition active:scale-[0.98]"
           >
             <Play className="size-4" /> View Demo
-          </Link>
+          </button>
         </div>
       </div>
     </PhoneShell>

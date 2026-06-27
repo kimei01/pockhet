@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppScreen } from "@/components/AppScreen";
+import { useEffect, useState } from "react";
+import { isDemo, disableDemo } from "@/lib/demo";
 import {
   Sparkles,
   TrendingUp,
@@ -13,6 +15,7 @@ import {
   MoreHorizontal,
   ArrowRight,
   Coffee,
+  X,
 } from "lucide-react";
 
 export const Route = createFileRoute("/home")({
@@ -48,9 +51,34 @@ const tx = [
 ];
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const [demo, setDemo] = useState(false);
+  useEffect(() => setDemo(isDemo()), []);
   return (
     <AppScreen>
       <div className="px-6 pt-14">
+        {demo && (
+          <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl bg-accent-soft px-4 py-2.5 ring-1 ring-accent/20">
+            <div className="flex items-center gap-2">
+              <Sparkles className="size-3.5 text-accent" strokeWidth={2.5} />
+              <p className="text-[12px] font-medium text-accent">
+                Demo data loaded — explore freely
+              </p>
+            </div>
+            <button
+              type="button"
+              aria-label="Exit demo"
+              onClick={() => {
+                disableDemo();
+                setDemo(false);
+                navigate({ to: "/" });
+              }}
+              className="grid size-6 place-items-center rounded-full text-accent/80 hover:bg-accent/10"
+            >
+              <X className="size-3.5" strokeWidth={2.5} />
+            </button>
+          </div>
+        )}
         <header className="flex items-center justify-between">
           <div>
             <p className="text-xs text-muted-foreground">Good morning, Alex</p>
