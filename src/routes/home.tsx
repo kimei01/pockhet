@@ -29,24 +29,8 @@ const metrics = [
   { label: "Subscriptions", value: "$84/mo", trend: "6 active", up: false },
 ];
 
-const categories = [
-  { name: "Food", icon: Utensils, amount: 820, pct: 28, tone: "bg-accent", color: "oklch(0.596 0.145 163.225)" },
-  { name: "Transport", icon: Car, amount: 340, pct: 12, tone: "bg-foreground", color: "oklch(0.21 0.006 285.885)" },
-  { name: "Shopping", icon: ShoppingBag, amount: 510, pct: 18, tone: "bg-foreground/70", color: "oklch(0.445 0.01 285.9)" },
-  { name: "Entertainment", icon: Film, amount: 220, pct: 8, tone: "bg-foreground/55", color: "oklch(0.552 0.014 285.938)" },
-  { name: "Bills", icon: Receipt, amount: 980, pct: 28, tone: "bg-foreground/40", color: "oklch(0.65 0.012 285.9)" },
-  { name: "Other", icon: MoreHorizontal, amount: 150, pct: 6, tone: "bg-foreground/25", color: "oklch(0.76 0.01 285.9)" },
-];
 
-const tx = [
-  { merchant: "Blue Bottle Coffee", cat: "Food", amount: -7.5, icon: Coffee, when: "Today, 8:42 AM" },
-  { merchant: "Whole Foods", cat: "Groceries", amount: -86.4, icon: ShoppingBag, when: "Yesterday" },
-  { merchant: "Uber", cat: "Transport", amount: -18.2, icon: Car, when: "Yesterday" },
-];
 
-const chartConfig = Object.fromEntries(
-  categories.map((c) => [c.name, { label: c.name, color: c.color }]),
-);
 
 function Dashboard() {
   const navigate = useNavigate();
