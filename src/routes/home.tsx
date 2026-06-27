@@ -6,7 +6,7 @@ import {
   Sparkles,
   TrendingUp,
   TrendingDown,
-  Bell,
+  User,
   ArrowRight,
   X,
 } from "lucide-react";
