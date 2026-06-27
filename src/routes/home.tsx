@@ -38,12 +38,12 @@ const metrics = [
 ];
 
 const categories = [
-  { name: "Food", icon: Utensils, amount: 820, pct: 28, tone: "bg-accent" },
-  { name: "Transport", icon: Car, amount: 340, pct: 12, tone: "bg-foreground" },
-  { name: "Shopping", icon: ShoppingBag, amount: 510, pct: 18, tone: "bg-foreground/70" },
-  { name: "Entertainment", icon: Film, amount: 220, pct: 8, tone: "bg-foreground/55" },
-  { name: "Bills", icon: Receipt, amount: 980, pct: 28, tone: "bg-foreground/40" },
-  { name: "Other", icon: MoreHorizontal, amount: 150, pct: 6, tone: "bg-foreground/25" },
+  { name: "Food", icon: Utensils, amount: 820, pct: 28, tone: "bg-accent", color: "oklch(0.596 0.145 163.225)" },
+  { name: "Transport", icon: Car, amount: 340, pct: 12, tone: "bg-foreground", color: "oklch(0.21 0.006 285.885)" },
+  { name: "Shopping", icon: ShoppingBag, amount: 510, pct: 18, tone: "bg-foreground/70", color: "oklch(0.445 0.01 285.9)" },
+  { name: "Entertainment", icon: Film, amount: 220, pct: 8, tone: "bg-foreground/55", color: "oklch(0.552 0.014 285.938)" },
+  { name: "Bills", icon: Receipt, amount: 980, pct: 28, tone: "bg-foreground/40", color: "oklch(0.65 0.012 285.9)" },
+  { name: "Other", icon: MoreHorizontal, amount: 150, pct: 6, tone: "bg-foreground/25", color: "oklch(0.76 0.01 285.9)" },
 ];
 
 const tx = [
