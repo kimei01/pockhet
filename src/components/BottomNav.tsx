@@ -3,7 +3,7 @@ import { Home, Sparkles, PieChart, Bot, User } from "lucide-react";
 
 const items = [
   { to: "/home", label: "Home", icon: Home },
-  { to: "/intelligence", label: "Intel", icon: Sparkles },
+  { to: "/intelligence", label: "Analysis", icon: Sparkles },
   { to: "/budget", label: "Budget", icon: PieChart },
   { to: "/copilot", label: "Copilot", icon: Bot },
   { to: "/profile", label: "Profile", icon: User },
