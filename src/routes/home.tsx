@@ -281,3 +281,30 @@ function HighlightCard({
     </div>
   );
 }
+
+function BudgetSlice({
+  dot,
+  label,
+  amount,
+  pct,
+}: {
+  dot: string;
+  label: string;
+  amount: number;
+  pct: number;
+}) {
+  return (
+    <div className="rounded-xl bg-muted/60 p-2.5">
+      <div className="flex items-center gap-1.5">
+        <span className={"size-2 rounded-full " + dot} />
+        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+          {label}
+        </p>
+      </div>
+      <p className="mt-1 text-sm font-semibold tabular-nums">
+        ${amount.toLocaleString()}
+      </p>
+      <p className="text-[10px] text-muted-foreground tabular-nums">{pct}%</p>
+    </div>
+  );
+}
