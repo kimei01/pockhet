@@ -52,6 +52,10 @@ const tx = [
   { merchant: "Uber", cat: "Transport", amount: -18.2, icon: Car, when: "Yesterday" },
 ];
 
+const chartConfig = Object.fromEntries(
+  categories.map((c) => [c.name, { label: c.name, color: c.color }]),
+);
+
 function Dashboard() {
   const navigate = useNavigate();
   const [demo, setDemo] = useState(false);
