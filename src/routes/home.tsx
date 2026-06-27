@@ -17,6 +17,8 @@ import {
   Coffee,
   X,
 } from "lucide-react";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -36,12 +38,12 @@ const metrics = [
 ];
 
 const categories = [
-  { name: "Food", icon: Utensils, amount: 820, pct: 28, tone: "bg-accent" },
-  { name: "Transport", icon: Car, amount: 340, pct: 12, tone: "bg-foreground" },
-  { name: "Shopping", icon: ShoppingBag, amount: 510, pct: 18, tone: "bg-foreground/70" },
-  { name: "Entertainment", icon: Film, amount: 220, pct: 8, tone: "bg-foreground/55" },
-  { name: "Bills", icon: Receipt, amount: 980, pct: 28, tone: "bg-foreground/40" },
-  { name: "Other", icon: MoreHorizontal, amount: 150, pct: 6, tone: "bg-foreground/25" },
+  { name: "Food", icon: Utensils, amount: 820, pct: 28, tone: "bg-accent", color: "oklch(0.596 0.145 163.225)" },
+  { name: "Transport", icon: Car, amount: 340, pct: 12, tone: "bg-foreground", color: "oklch(0.21 0.006 285.885)" },
+  { name: "Shopping", icon: ShoppingBag, amount: 510, pct: 18, tone: "bg-foreground/70", color: "oklch(0.445 0.01 285.9)" },
+  { name: "Entertainment", icon: Film, amount: 220, pct: 8, tone: "bg-foreground/55", color: "oklch(0.552 0.014 285.938)" },
+  { name: "Bills", icon: Receipt, amount: 980, pct: 28, tone: "bg-foreground/40", color: "oklch(0.65 0.012 285.9)" },
+  { name: "Other", icon: MoreHorizontal, amount: 150, pct: 6, tone: "bg-foreground/25", color: "oklch(0.76 0.01 285.9)" },
 ];
 
 const tx = [
@@ -49,6 +51,10 @@ const tx = [
   { merchant: "Whole Foods", cat: "Groceries", amount: -86.4, icon: ShoppingBag, when: "Yesterday" },
   { merchant: "Uber", cat: "Transport", amount: -18.2, icon: Car, when: "Yesterday" },
 ];
+
+const chartConfig = Object.fromEntries(
+  categories.map((c) => [c.name, { label: c.name, color: c.color }]),
+);
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -167,31 +173,60 @@ function Dashboard() {
           />
         </div>
 
-        {/* Category breakdown */}
-        <SectionHeader title="Spending by category" />
-        <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
-          <div className="mb-5 flex h-2 overflow-hidden rounded-full">
-            {categories.map((c) => (
-              <div key={c.name} className={c.tone} style={{ width: `${c.pct}%` }} />
-            ))}
+      {/* Category breakdown */}
+      <SectionHeader title="Spending by category" />
+      <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
+        <div className="flex items-center gap-5">
+          <div className="relative h-40 w-40 shrink-0">
+            <ChartContainer config={chartConfig} className="h-full w-full">
+              <PieChart>
+                <Pie
+                  data={categories}
+                  dataKey="amount"
+                  nameKey="name"
+                  innerRadius={44}
+                  outerRadius={68}
+                  paddingAngle={2}
+                  strokeWidth={2}
+                >
+                  {categories.map((entry) => (
+                    <Cell key={entry.name} fill={entry.color} stroke="var(--color-card)" />
+                  ))}
+                </Pie>
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      formatter={(value, name) => [`$${value}`, name as string]}
+                    />
+                  }
+                />
+              </PieChart>
+            </ChartContainer>
+            <div className="pointer-events-none absolute inset-0 grid place-items-center">
+              <div className="text-center">
+                <p className="text-[10px] text-muted-foreground">Total</p>
+                <p className="text-sm font-semibold">$3,020</p>
+              </div>
+            </div>
           </div>
-          <div className="space-y-3">
+          <div className="flex-1 space-y-2.5">
             {categories.map((c) => (
-              <div key={c.name} className="flex items-center gap-3">
-                <div className="grid size-8 place-items-center rounded-lg bg-muted">
-                  <c.icon className="size-4 text-muted-foreground" />
+              <div key={c.name} className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="size-2.5 rounded-full"
+                    style={{ backgroundColor: c.color }}
+                  />
+                  <span className="text-[12px] font-medium text-foreground">{c.name}</span>
                 </div>
-                <div className="flex-1">
-                  <p className="text-[13px] font-medium">{c.name}</p>
-                </div>
-                <p className="text-[13px] font-semibold tabular-nums">${c.amount}</p>
-                <p className="w-10 text-right text-[11px] text-muted-foreground tabular-nums">
+                <span className="text-[12px] font-semibold tabular-nums text-muted-foreground">
                   {c.pct}%
-                </p>
+                </span>
               </div>
             ))}
           </div>
         </div>
+      </div>
 
         {/* Recent transactions */}
         <SectionHeader title="Recent transactions" link="View all" />
