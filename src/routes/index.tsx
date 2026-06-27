@@ -1,7 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { PhoneShell } from "@/components/PhoneShell";
 import { Logo } from "@/components/Logo";
 import { ArrowUpRight, Play, Sparkles } from "lucide-react";
+import { enableDemo } from "@/lib/demo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
