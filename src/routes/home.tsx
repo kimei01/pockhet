@@ -7,18 +7,10 @@ import {
   TrendingUp,
   TrendingDown,
   Bell,
-  Utensils,
-  Car,
-  ShoppingBag,
-  Film,
-  Receipt,
-  MoreHorizontal,
   ArrowRight,
-  Coffee,
   X,
 } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -37,24 +29,8 @@ const metrics = [
   { label: "Subscriptions", value: "$84/mo", trend: "6 active", up: false },
 ];
 
-const categories = [
-  { name: "Food", icon: Utensils, amount: 820, pct: 28, tone: "bg-accent", color: "oklch(0.596 0.145 163.225)" },
-  { name: "Transport", icon: Car, amount: 340, pct: 12, tone: "bg-foreground", color: "oklch(0.21 0.006 285.885)" },
-  { name: "Shopping", icon: ShoppingBag, amount: 510, pct: 18, tone: "bg-foreground/70", color: "oklch(0.445 0.01 285.9)" },
-  { name: "Entertainment", icon: Film, amount: 220, pct: 8, tone: "bg-foreground/55", color: "oklch(0.552 0.014 285.938)" },
-  { name: "Bills", icon: Receipt, amount: 980, pct: 28, tone: "bg-foreground/40", color: "oklch(0.65 0.012 285.9)" },
-  { name: "Other", icon: MoreHorizontal, amount: 150, pct: 6, tone: "bg-foreground/25", color: "oklch(0.76 0.01 285.9)" },
-];
 
-const tx = [
-  { merchant: "Blue Bottle Coffee", cat: "Food", amount: -7.5, icon: Coffee, when: "Today, 8:42 AM" },
-  { merchant: "Whole Foods", cat: "Groceries", amount: -86.4, icon: ShoppingBag, when: "Yesterday" },
-  { merchant: "Uber", cat: "Transport", amount: -18.2, icon: Car, when: "Yesterday" },
-];
 
-const chartConfig = Object.fromEntries(
-  categories.map((c) => [c.name, { label: c.name, color: c.color }]),
-);
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -173,82 +149,54 @@ function Dashboard() {
           />
         </div>
 
-      {/* Category breakdown */}
-      <SectionHeader title="Spending by category" />
-      <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
-        <div className="flex items-center gap-5">
-          <div className="relative h-40 w-40 shrink-0">
-            <ChartContainer config={chartConfig} className="h-full w-full">
-              <PieChart>
-                <Pie
-                  data={categories}
-                  dataKey="amount"
-                  nameKey="name"
-                  innerRadius={44}
-                  outerRadius={68}
-                  paddingAngle={2}
-                  strokeWidth={2}
-                >
-                  {categories.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} stroke="var(--color-card)" />
-                  ))}
-                </Pie>
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      formatter={(value, name) => [`$${value}`, name as string]}
-                    />
-                  }
-                />
-              </PieChart>
-            </ChartContainer>
-            <div className="pointer-events-none absolute inset-0 grid place-items-center">
-              <div className="text-center">
-                <p className="text-[10px] text-muted-foreground">Total</p>
-                <p className="text-sm font-semibold">$3,020</p>
-              </div>
-            </div>
-          </div>
-          <div className="flex-1 space-y-2.5">
-            {categories.map((c) => (
-              <div key={c.name} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span
-                    className="size-2.5 rounded-full"
-                    style={{ backgroundColor: c.color }}
-                  />
-                  <span className="text-[12px] font-medium text-foreground">{c.name}</span>
-                </div>
-                <span className="text-[12px] font-semibold tabular-nums text-muted-foreground">
-                  {c.pct}%
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-        {/* Recent transactions */}
-        <SectionHeader title="Recent transactions" link="View all" />
-        <div className="space-y-2 pb-6">
-          {tx.map((t) => (
-            <div
-              key={t.merchant}
-              className="flex items-center gap-3 rounded-2xl bg-card px-4 py-3 ring-1 ring-border"
-            >
-              <div className="grid size-9 place-items-center rounded-xl bg-muted">
-                <t.icon className="size-4 text-foreground" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium">{t.merchant}</p>
-                <p className="text-[11px] text-muted-foreground">{t.cat} · {t.when}</p>
-              </div>
-              <p className="text-sm font-semibold tabular-nums">
-                ${t.amount.toFixed(2)}
+        {/* Current budget plan */}
+        <SectionHeader title="Current budget plan" link="Adjust" />
+        <Link
+          to="/budget"
+          className="block rounded-3xl bg-card p-5 ring-1 ring-border"
+        >
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                Active profile
+              </p>
+              <p className="mt-1 text-lg font-semibold tracking-tight">
+                Default · 50 / 30 / 20
+              </p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                Balanced — AI matched
               </p>
             </div>
-          ))}
-        </div>
+            <div className="rounded-lg bg-accent-soft px-2 py-1 text-[10px] font-bold tracking-wide text-accent">
+              ON TRACK
+            </div>
+          </div>
+
+          <div className="mt-5 flex h-2.5 overflow-hidden rounded-full">
+            <div className="bg-foreground" style={{ width: "50%" }} />
+            <div className="bg-accent" style={{ width: "30%" }} />
+            <div className="bg-accent/40" style={{ width: "20%" }} />
+          </div>
+
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            <BudgetSlice dot="bg-foreground" label="Needs" amount={4100} pct={50} />
+            <BudgetSlice dot="bg-accent" label="Wants" amount={2460} pct={30} />
+            <BudgetSlice dot="bg-accent/40" label="Savings" amount={1640} pct={20} />
+          </div>
+
+          <div className="mt-5 flex items-center justify-between rounded-2xl bg-muted px-3 py-2.5">
+            <div>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                Spent this month
+              </p>
+              <p className="text-sm font-semibold tabular-nums">
+                $3,420 <span className="text-[11px] font-normal text-muted-foreground">of $8,200</span>
+              </p>
+            </div>
+            <ArrowRight className="size-4 text-muted-foreground" />
+          </div>
+        </Link>
+        <div className="h-6" />
       </div>
     </AppScreen>
   );
@@ -306,6 +254,33 @@ function HighlightCard({
         <p className="text-[13px] font-semibold">{title}</p>
         <p className="text-[11.5px] text-muted-foreground">{body}</p>
       </div>
+    </div>
+  );
+}
+
+function BudgetSlice({
+  dot,
+  label,
+  amount,
+  pct,
+}: {
+  dot: string;
+  label: string;
+  amount: number;
+  pct: number;
+}) {
+  return (
+    <div className="rounded-xl bg-muted/60 p-2.5">
+      <div className="flex items-center gap-1.5">
+        <span className={"size-2 rounded-full " + dot} />
+        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+          {label}
+        </p>
+      </div>
+      <p className="mt-1 text-sm font-semibold tabular-nums">
+        ${amount.toLocaleString()}
+      </p>
+      <p className="text-[10px] text-muted-foreground tabular-nums">{pct}%</p>
     </div>
   );
 }

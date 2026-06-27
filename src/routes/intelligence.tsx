@@ -197,12 +197,30 @@ function SpendingPieChart() {
 }
 
 function SpendingPanel() {
+  const recent = [
+    { merchant: "Blue Bottle Coffee", cat: "Food", amount: -7.5, when: "Today, 8:42 AM" },
+    { merchant: "Whole Foods", cat: "Groceries", amount: -86.4, when: "Yesterday" },
+    { merchant: "Uber", cat: "Transport", amount: -18.2, when: "Yesterday" },
+    { merchant: "Amazon", cat: "Shopping", amount: -42.99, when: "Jun 24" },
+    { merchant: "Shell", cat: "Transport", amount: -56.1, when: "Jun 23" },
+    { merchant: "Chipotle", cat: "Food", amount: -14.75, when: "Jun 22" },
+  ];
+
   return (
     <div className="mt-6 space-y-4">
       <AIRecommendation>
         Your weekend dining is up 24% YoY. Capping Saturday spend at $80 would
         save roughly $1,150/year without changing your weekday routine.
       </AIRecommendation>
+
+      <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
+        <p className="text-sm font-semibold">Forecast — July</p>
+        <p className="mt-1 text-[12.5px] text-muted-foreground">
+          Pockhet projects <span className="font-semibold text-foreground">$3,180</span>{" "}
+          based on your last 90 days of behavior. Most of the savings come from
+          reduced dining out.
+        </p>
+      </div>
 
       <SpendingPieChart />
 
@@ -230,13 +248,33 @@ function SpendingPanel() {
           ))}
         </div>
       </div>
-      <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
-        <p className="text-sm font-semibold">Forecast — July</p>
-        <p className="mt-1 text-[12.5px] text-muted-foreground">
-          Pockhet projects <span className="font-semibold text-foreground">$3,180</span>{" "}
-          based on your last 90 days of behavior. Most of the savings come from
-          reduced dining out.
-        </p>
+
+      <div>
+        <div className="mb-3 flex items-center justify-between">
+          <p className="text-sm font-semibold">Recent transactions</p>
+          <p className="text-[11px] text-muted-foreground">Last 7 days</p>
+        </div>
+        <div className="space-y-2">
+          {recent.map((t) => (
+            <div
+              key={t.merchant}
+              className="flex items-center gap-3 rounded-2xl bg-card px-4 py-3 ring-1 ring-border"
+            >
+              <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-muted text-[11px] font-semibold">
+                {t.merchant.charAt(0)}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-medium">{t.merchant}</p>
+                <p className="text-[11px] text-muted-foreground">
+                  {t.cat} · {t.when}
+                </p>
+              </div>
+              <p className="text-sm font-semibold tabular-nums">
+                ${t.amount.toFixed(2)}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
