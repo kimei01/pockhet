@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppScreen } from "@/components/AppScreen";
+import { useEffect, useState } from "react";
+import { isDemo, disableDemo } from "@/lib/demo";
 import {
   Sparkles,
   TrendingUp,
@@ -13,6 +15,7 @@ import {
   MoreHorizontal,
   ArrowRight,
   Coffee,
+  X,
 } from "lucide-react";
 
 export const Route = createFileRoute("/home")({
