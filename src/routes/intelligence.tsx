@@ -12,14 +12,24 @@ import {
 
 export const Route = createFileRoute("/intelligence")({
   head: () => ({
-    meta: [{ title: "Intelligence — Pockhet" }],
+    meta: [{ title: "Analysis — Pockhet" }],
   }),
   component: Intelligence,
 });
 
-const tabs = ["Spending", "Patterns", "Subscriptions", "Loans"] as const;
+const tabs = ["Spending", "Trends", "Subscriptions", "Loans"] as const;
 
 const trend = [38, 52, 41, 60, 48, 72, 55, 64, 49, 80, 58, 66];
+
+// Mirrors the dashboard category breakdown derived from uploaded transactions.
+const spendingCategories = [
+  { name: "Bills", amount: 980, color: "var(--color-accent)" },
+  { name: "Food", amount: 820, color: "oklch(0.55 0.13 160)" },
+  { name: "Shopping", amount: 510, color: "oklch(0.42 0.04 250)" },
+  { name: "Transport", amount: 340, color: "oklch(0.62 0.08 200)" },
+  { name: "Entertainment", amount: 220, color: "oklch(0.72 0.10 80)" },
+  { name: "Other", amount: 150, color: "oklch(0.78 0.02 250)" },
+];
 
 const patterns = [
   { label: "Most frequent", value: "Coffee shops", sub: "18× this month", icon: Activity },
@@ -56,13 +66,13 @@ const loans = [
 ];
 
 function Intelligence() {
-  const [tab, setTab] = useState<(typeof tabs)[number]>("Subscriptions");
+  const [tab, setTab] = useState<(typeof tabs)[number]>("Spending");
   return (
     <AppScreen>
       <div className="px-6 pt-14">
         <p className="text-xs text-muted-foreground">Insights</p>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight">
-          Financial Intelligence
+          Financial Analysis
         </h1>
 
         <div className="no-scrollbar mt-6 flex gap-2 overflow-x-auto">
@@ -83,7 +93,7 @@ function Intelligence() {
         </div>
 
         {tab === "Spending" && <SpendingPanel />}
-        {tab === "Patterns" && <PatternsPanel />}
+        {tab === "Trends" && <TrendsPanel />}
         {tab === "Subscriptions" && <SubscriptionsPanel />}
         {tab === "Loans" && <LoansPanel />}
 
@@ -95,7 +105,7 @@ function Intelligence() {
 
 function AIRecommendation({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mt-6 rounded-3xl bg-foreground p-5 text-background">
+    <div className="rounded-3xl bg-foreground p-5 text-background">
       <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-background/60">
         <Sparkles className="size-3" strokeWidth={2.5} /> AI Recommendation
       </div>
@@ -104,9 +114,98 @@ function AIRecommendation({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SpendingPieChart() {
+  const total = spendingCategories.reduce((s, c) => s + c.amount, 0);
+  const size = 180;
+  const stroke = 28;
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+
+  let offset = 0;
+  const segments = spendingCategories.map((cat) => {
+    const frac = cat.amount / total;
+    const dash = frac * c;
+    const seg = (
+      <circle
+        key={cat.name}
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        stroke={cat.color}
+        strokeWidth={stroke}
+        strokeDasharray={`${dash} ${c - dash}`}
+        strokeDashoffset={-offset}
+      />
+    );
+    offset += dash;
+    return seg;
+  });
+
+  return (
+    <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+            By category
+          </p>
+          <p className="mt-1 text-sm font-semibold">Where your money goes</p>
+        </div>
+        <p className="text-[10px] text-muted-foreground">From uploaded data</p>
+      </div>
+
+      <div className="mt-4 flex items-center gap-5">
+        <div className="relative shrink-0" style={{ width: size, height: size }}>
+          <svg
+            width={size}
+            height={size}
+            viewBox={`0 0 ${size} ${size}`}
+            style={{ transform: "rotate(-90deg)" }}
+          >
+            {segments}
+          </svg>
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              Total
+            </p>
+            <p className="text-xl font-semibold tracking-tight tabular-nums">
+              ${total.toLocaleString()}
+            </p>
+          </div>
+        </div>
+
+        <ul className="flex-1 space-y-2">
+          {spendingCategories.map((cat) => {
+            const pct = Math.round((cat.amount / total) * 100);
+            return (
+              <li key={cat.name} className="flex items-center gap-2">
+                <span
+                  className="size-2.5 shrink-0 rounded-sm"
+                  style={{ background: cat.color }}
+                />
+                <span className="flex-1 text-[12px] font-medium">{cat.name}</span>
+                <span className="text-[11px] text-muted-foreground tabular-nums">
+                  {pct}%
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function SpendingPanel() {
   return (
     <div className="mt-6 space-y-4">
+      <AIRecommendation>
+        Your weekend dining is up 24% YoY. Capping Saturday spend at $80 would
+        save roughly $1,150/year without changing your weekday routine.
+      </AIRecommendation>
+
+      <SpendingPieChart />
+
       <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
         <div className="flex items-end justify-between">
           <div>
@@ -139,17 +238,17 @@ function SpendingPanel() {
           reduced dining out.
         </p>
       </div>
-      <AIRecommendation>
-        Your weekend dining is up 24% YoY. Capping Saturday spend at $80 would
-        save roughly $1,150/year without changing your weekday routine.
-      </AIRecommendation>
     </div>
   );
 }
 
-function PatternsPanel() {
+function TrendsPanel() {
   return (
     <div className="mt-6 space-y-3">
+      <AIRecommendation>
+        You're 2.4× more likely to overspend after 8pm on weekends. A short
+        nudge before checkout could materially reduce impulse spend.
+      </AIRecommendation>
       {patterns.map((p) => (
         <div
           key={p.label}
@@ -168,10 +267,6 @@ function PatternsPanel() {
           <ChevronRight className="size-4 text-muted-foreground" />
         </div>
       ))}
-      <AIRecommendation>
-        You're 2.4× more likely to overspend after 8pm on weekends. A short
-        nudge before checkout could materially reduce impulse spend.
-      </AIRecommendation>
     </div>
   );
 }
@@ -180,6 +275,12 @@ function SubscriptionsPanel() {
   const total = subs.reduce((s, x) => s + x.price, 0);
   return (
     <div className="mt-6 space-y-3">
+      <AIRecommendation>
+        You're spending ${total.toFixed(0)}/mo on subscriptions. Cancelling
+        ChatGPT Plus (flagged as unused) could save you{" "}
+        <span className="font-semibold">$240 annually</span>.
+      </AIRecommendation>
+
       <div className="flex items-center justify-between rounded-2xl bg-muted px-4 py-3">
         <div>
           <p className="text-[11px] text-muted-foreground">Monthly subscription spend</p>
@@ -219,12 +320,6 @@ function SubscriptionsPanel() {
           <p className="text-sm font-semibold tabular-nums">${s.price.toFixed(2)}</p>
         </div>
       ))}
-
-      <AIRecommendation>
-        You're spending ${total.toFixed(0)}/mo on subscriptions. Cancelling
-        ChatGPT Plus (flagged as unused) could save you{" "}
-        <span className="font-semibold">$240 annually</span>.
-      </AIRecommendation>
     </div>
   );
 }
@@ -232,6 +327,12 @@ function SubscriptionsPanel() {
 function LoansPanel() {
   return (
     <div className="mt-6 space-y-3">
+      <AIRecommendation>
+        Your Nelnet payment is due in 4 days and your checking balance is
+        trending low. I can move $245 from savings on the 2nd to prevent a late
+        fee — say the word.
+      </AIRecommendation>
+
       <div className="rounded-3xl bg-card p-5 ring-1 ring-border">
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
           Debt health score
@@ -274,12 +375,6 @@ function LoansPanel() {
           <p className="mt-2 text-[11px] text-muted-foreground">Due {l.due}</p>
         </div>
       ))}
-
-      <AIRecommendation>
-        Your Nelnet payment is due in 4 days and your checking balance is
-        trending low. I can move $245 from savings on the 2nd to prevent a late
-        fee — say the word.
-      </AIRecommendation>
     </div>
   );
 }
