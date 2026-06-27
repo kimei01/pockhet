@@ -221,6 +221,7 @@ function Dashboard() {
           </div>
         </Link>
         <div className="h-6" />
+      </div>
     </AppScreen>
   );
 }
