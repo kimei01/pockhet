@@ -84,6 +84,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "AI-powered personal finance. Upload your transactions and let Pockhet build your wealth strategy." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Pockhet — Your AI Financial Copilot" },
+      { name: "twitter:description", content: "AI-powered personal finance. Upload your transactions and let Pockhet build your wealth strategy." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/45ba3348-2a58-4002-a6bd-b854906777f6/id-preview-ccf94ea9--afbfa4ff-5a04-4c0a-8e15-affe15495431.lovable.app-1782535952419.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/45ba3348-2a58-4002-a6bd-b854906777f6/id-preview-ccf94ea9--afbfa4ff-5a04-4c0a-8e15-affe15495431.lovable.app-1782535952419.png" },
     ],
     links: [
       {
