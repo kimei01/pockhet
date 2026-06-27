@@ -7,8 +7,8 @@ import type { ReactNode } from "react";
  */
 export function PhoneShell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen w-full bg-muted/60 md:py-10">
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col bg-background md:min-h-[860px] md:rounded-[44px] md:shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)] md:ring-1 md:ring-black/5 overflow-hidden">
+    <div className="min-h-svh w-full bg-muted/60 md:py-10">
+      <div className="relative mx-auto flex h-svh w-full max-w-[440px] flex-col overflow-hidden bg-background md:h-[860px] md:rounded-[44px] md:shadow-[0_30px_80px_-40px_rgba(0,0,0,0.35)] md:ring-1 md:ring-black/5">
         {children}
       </div>
     </div>

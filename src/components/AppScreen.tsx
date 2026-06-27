@@ -5,7 +5,7 @@ import { BottomNav } from "./BottomNav";
 export function AppScreen({ children }: { children: ReactNode }) {
   return (
     <PhoneShell>
-      <div className="flex flex-1 flex-col overflow-y-auto pb-4">{children}</div>
+      <div className="flex flex-1 flex-col min-h-0 overflow-y-auto pb-4">{children}</div>
       <BottomNav />
     </PhoneShell>
   );
