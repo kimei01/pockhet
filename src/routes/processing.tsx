@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { PhoneShell } from "@/components/PhoneShell";
 import { useEffect, useState } from "react";
 import { Check, Loader2 } from "lucide-react";
+import { isDemo } from "@/lib/demo";
 
 export const Route = createFileRoute("/processing")({
   head: () => ({ meta: [{ title: "Analyzing — Pockhet" }] }),
