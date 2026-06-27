@@ -63,12 +63,16 @@ function Welcome() {
             Upload Transactions
             <ArrowUpRight className="size-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
-          <Link
-            to="/home"
-            className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-transparent text-[15px] font-medium text-foreground ring-1 ring-border"
+          <button
+            type="button"
+            onClick={() => {
+              enableDemo();
+              navigate({ to: "/processing", search: { demo: 1 } });
+            }}
+            className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-transparent text-[15px] font-medium text-foreground ring-1 ring-border transition active:scale-[0.98]"
           >
             <Play className="size-4" /> View Demo
-          </Link>
+          </button>
         </div>
       </div>
     </PhoneShell>
