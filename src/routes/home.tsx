@@ -6,7 +6,7 @@ import {
   Sparkles,
   TrendingUp,
   TrendingDown,
-  Bell,
+  User,
   ArrowRight,
   X,
 } from "lucide-react";
@@ -66,10 +66,14 @@ function Dashboard() {
             <p className="text-xs text-muted-foreground">Good morning, Alex</p>
             <p className="text-lg font-semibold">Your money, calmly</p>
           </div>
-          <button className="relative grid size-10 place-items-center rounded-full bg-muted">
-            <Bell className="size-4" />
+          <Link
+            to="/profile"
+            aria-label="Profile"
+            className="relative grid size-10 place-items-center rounded-full bg-muted"
+          >
+            <User className="size-4" />
             <span className="absolute right-2.5 top-2.5 size-1.5 rounded-full bg-accent" />
-          </button>
+          </Link>
         </header>
 
         {/* Health score */}
@@ -129,26 +133,6 @@ function Dashboard() {
           ))}
         </div>
 
-        {/* AI Highlights */}
-        <SectionHeader title="AI Highlights" badge="3 new" />
-        <div className="space-y-2">
-          <HighlightCard
-            tone="warn"
-            title="Subscription price increase"
-            body="Netflix went up by $3.00/mo last week."
-          />
-          <HighlightCard
-            tone="info"
-            title="Unusual spending detected"
-            body="Blue Bottle Coffee charged 4× this week (+$42)."
-          />
-          <HighlightCard
-            tone="accent"
-            title="Budget surplus"
-            body="$450 remaining in Groceries — pace looks healthy."
-          />
-        </div>
-
         {/* Current budget plan */}
         <SectionHeader title="Current budget plan" link="Adjust" />
         <Link
@@ -196,6 +180,27 @@ function Dashboard() {
             <ArrowRight className="size-4 text-muted-foreground" />
           </div>
         </Link>
+
+        {/* AI Highlights */}
+        <SectionHeader title="AI Highlights" badge="3 new" />
+        <div className="space-y-2">
+          <HighlightCard
+            tone="warn"
+            title="Subscription price increase"
+            body="Netflix went up by $3.00/mo last week."
+          />
+          <HighlightCard
+            tone="info"
+            title="Unusual spending detected"
+            body="Blue Bottle Coffee charged 4× this week (+$42)."
+          />
+          <HighlightCard
+            tone="accent"
+            title="Budget surplus"
+            body="$450 remaining in Groceries — pace looks healthy."
+          />
+        </div>
+
         <div className="h-6" />
       </div>
     </AppScreen>

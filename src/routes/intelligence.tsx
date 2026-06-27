@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppScreen } from "@/components/AppScreen";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Sparkles,
   TrendingUp,
@@ -8,6 +8,7 @@ import {
   Activity,
   AlertCircle,
   ChevronRight,
+  Search,
 } from "lucide-react";
 
 export const Route = createFileRoute("/intelligence")({
@@ -206,6 +207,22 @@ function SpendingPanel() {
     { merchant: "Chipotle", cat: "Food", amount: -14.75, when: "Jun 22" },
   ];
 
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(recent.map((t) => t.cat)))],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+  const [query, setQuery] = useState("");
+  const [activeCat, setActiveCat] = useState<string>("All");
+
+  const filtered = recent.filter((t) => {
+    const matchesCat = activeCat === "All" || t.cat === activeCat;
+    const q = query.trim().toLowerCase();
+    const matchesQuery =
+      !q || t.merchant.toLowerCase().includes(q) || t.cat.toLowerCase().includes(q);
+    return matchesCat && matchesQuery;
+  });
+
   return (
     <div className="mt-6 space-y-4">
       <AIRecommendation>
@@ -254,31 +271,67 @@ function SpendingPanel() {
           <p className="text-sm font-semibold">Recent transactions</p>
           <p className="text-[11px] text-muted-foreground">Last 7 days</p>
         </div>
-        <div className="space-y-2">
-          {recent.map((t) => (
-            <div
-              key={t.merchant}
-              className="flex items-center gap-3 rounded-2xl bg-card px-4 py-3 ring-1 ring-border"
+
+        <div className="relative mb-3">
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search merchant or category"
+            className="w-full rounded-full bg-muted py-2.5 pl-9 pr-3 text-[12.5px] outline-none ring-1 ring-transparent placeholder:text-muted-foreground focus:ring-accent/40"
+          />
+        </div>
+
+        <div className="no-scrollbar mb-3 flex gap-2 overflow-x-auto">
+          {categories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setActiveCat(c)}
+              className={
+                "shrink-0 rounded-full px-3 py-1.5 text-[11px] font-medium transition " +
+                (activeCat === c
+                  ? "bg-foreground text-background"
+                  : "bg-muted text-muted-foreground")
+              }
             >
-              <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-muted text-[11px] font-semibold">
-                {t.merchant.charAt(0)}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium">{t.merchant}</p>
-                <p className="text-[11px] text-muted-foreground">
-                  {t.cat} · {t.when}
+              {c}
+            </button>
+          ))}
+        </div>
+
+        <div className="space-y-2">
+          {filtered.length === 0 ? (
+            <p className="rounded-2xl bg-muted px-4 py-6 text-center text-[12px] text-muted-foreground">
+              No transactions match your filters.
+            </p>
+          ) : (
+            filtered.map((t) => (
+              <div
+                key={t.merchant}
+                className="flex items-center gap-3 rounded-2xl bg-card px-4 py-3 ring-1 ring-border"
+              >
+                <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-muted text-[11px] font-semibold">
+                  {t.merchant.charAt(0)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium">{t.merchant}</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    {t.cat} · {t.when}
+                  </p>
+                </div>
+                <p className="text-sm font-semibold tabular-nums">
+                  ${t.amount.toFixed(2)}
                 </p>
               </div>
-              <p className="text-sm font-semibold tabular-nums">
-                ${t.amount.toFixed(2)}
-              </p>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 }
+
 
 function TrendsPanel() {
   return (
