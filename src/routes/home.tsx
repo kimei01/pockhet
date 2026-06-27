@@ -7,18 +7,10 @@ import {
   TrendingUp,
   TrendingDown,
   Bell,
-  Utensils,
-  Car,
-  ShoppingBag,
-  Film,
-  Receipt,
-  MoreHorizontal,
   ArrowRight,
-  Coffee,
   X,
 } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+
 
 export const Route = createFileRoute("/home")({
   head: () => ({
