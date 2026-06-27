@@ -67,7 +67,7 @@ function Welcome() {
             type="button"
             onClick={() => {
               enableDemo();
-              navigate({ to: "/processing", search: { demo: 1 } });
+              navigate({ to: "/processing" });
             }}
             className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-transparent text-[15px] font-medium text-foreground ring-1 ring-border transition active:scale-[0.98]"
           >
