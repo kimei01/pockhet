@@ -67,7 +67,9 @@ function Dashboard() {
             <p className="text-lg font-semibold">Your money, calmly</p>
           </div>
           <button className="relative grid size-10 place-items-center rounded-full bg-muted">
-            <Bell className="size-4" />
+            <Link to="/profile" aria-label="Profile" className="grid size-full place-items-center">
+              <User className="size-4" />
+            </Link>
             <span className="absolute right-2.5 top-2.5 size-1.5 rounded-full bg-accent" />
           </button>
         </header>
