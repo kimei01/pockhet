@@ -133,26 +133,6 @@ function Dashboard() {
           ))}
         </div>
 
-        {/* AI Highlights */}
-        <SectionHeader title="AI Highlights" badge="3 new" />
-        <div className="space-y-2">
-          <HighlightCard
-            tone="warn"
-            title="Subscription price increase"
-            body="Netflix went up by $3.00/mo last week."
-          />
-          <HighlightCard
-            tone="info"
-            title="Unusual spending detected"
-            body="Blue Bottle Coffee charged 4× this week (+$42)."
-          />
-          <HighlightCard
-            tone="accent"
-            title="Budget surplus"
-            body="$450 remaining in Groceries — pace looks healthy."
-          />
-        </div>
-
         {/* Current budget plan */}
         <SectionHeader title="Current budget plan" link="Adjust" />
         <Link
@@ -200,6 +180,27 @@ function Dashboard() {
             <ArrowRight className="size-4 text-muted-foreground" />
           </div>
         </Link>
+
+        {/* AI Highlights */}
+        <SectionHeader title="AI Highlights" badge="3 new" />
+        <div className="space-y-2">
+          <HighlightCard
+            tone="warn"
+            title="Subscription price increase"
+            body="Netflix went up by $3.00/mo last week."
+          />
+          <HighlightCard
+            tone="info"
+            title="Unusual spending detected"
+            body="Blue Bottle Coffee charged 4× this week (+$42)."
+          />
+          <HighlightCard
+            tone="accent"
+            title="Budget surplus"
+            body="$450 remaining in Groceries — pace looks healthy."
+          />
+        </div>
+
         <div className="h-6" />
       </div>
     </AppScreen>
