@@ -66,12 +66,14 @@ function Dashboard() {
             <p className="text-xs text-muted-foreground">Good morning, Alex</p>
             <p className="text-lg font-semibold">Your money, calmly</p>
           </div>
-          <button className="relative grid size-10 place-items-center rounded-full bg-muted">
-            <Link to="/profile" aria-label="Profile" className="grid size-full place-items-center">
-              <User className="size-4" />
-            </Link>
+          <Link
+            to="/profile"
+            aria-label="Profile"
+            className="relative grid size-10 place-items-center rounded-full bg-muted"
+          >
+            <User className="size-4" />
             <span className="absolute right-2.5 top-2.5 size-1.5 rounded-full bg-accent" />
-          </button>
+          </Link>
         </header>
 
         {/* Health score */}
