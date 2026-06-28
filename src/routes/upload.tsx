@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { PhoneShell } from "@/components/PhoneShell";
 import { ArrowLeft, FileText, UploadCloud, Check } from "lucide-react";
 
