@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { PhoneShell } from "@/components/PhoneShell";
 import { ArrowLeft, FileText, UploadCloud, Check } from "lucide-react";
-
 export const Route = createFileRoute("/upload")({
   head: () => ({
     meta: [
@@ -11,18 +10,16 @@ export const Route = createFileRoute("/upload")({
   }),
   component: Upload,
 });
-
 const recent = [
   { name: "chase_checking_may.csv", size: "248 KB", when: "2 days ago" },
   { name: "amex_platinum_apr.pdf", size: "1.2 MB", when: "Last month" },
 ];
-
 function Upload() {
   const navigate = useNavigate();
   const router = useRouter();
   return (
     <PhoneShell>
-      <div className="flex flex-1 flex-col px-6 pt-14 pb-8">
+      <div className="flex flex-1 flex-col px-6 pt-14 pb-12 overflow-y-auto">
         <div className="flex items-center justify-between">
           <button
             type="button"
@@ -34,14 +31,12 @@ function Upload() {
           </button>
           <span className="text-xs font-medium text-muted-foreground">Step 1 of 3</span>
         </div>
-
         <h1 className="mt-8 text-3xl font-semibold tracking-tight">
           Bring in your <br /> financial data
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
           Your data is processed privately. We never share with third parties.
         </p>
-
         <button className="mt-8 flex flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-subtle bg-surface px-6 py-10 text-center transition hover:bg-muted">
           <div className="grid size-12 place-items-center rounded-2xl bg-accent-soft text-accent">
             <UploadCloud className="size-5" />
@@ -63,7 +58,6 @@ function Upload() {
             ))}
           </div>
         </button>
-
         <div className="mt-8">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Recent uploads
@@ -88,13 +82,12 @@ function Upload() {
             ))}
           </div>
         </div>
-
         <button
-  onClick={() => navigate({ to: "/processing" })}
-  className="mt-8 flex h-14 w-full shrink-0 items-center justify-center rounded-2xl bg-foreground text-[15px] font-medium text-background"
->
-  Analyze My Finances
-</button>
+          onClick={() => navigate({ to: "/processing" })}
+          className="mt-8 mb-4 flex h-14 w-full shrink-0 items-center justify-center rounded-2xl bg-foreground text-[15px] font-medium text-background"
+        >
+          Analyze My Finances
+        </button>
       </div>
     </PhoneShell>
   );
