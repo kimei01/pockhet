@@ -14,6 +14,7 @@ import {
   Film,
   Zap,
   CreditCard,
+  ArrowDownLeft,
 } from "lucide-react";
 
 export const Route = createFileRoute("/confirm")({
@@ -40,9 +41,22 @@ type Txn = {
 const categories: {
   name: string;
   color: string;
+  kind?: "income" | "expense";
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   txns: Txn[];
 }[] = [
+  {
+    name: "Income",
+    color: "oklch(0.72 0.15 145)",
+    kind: "income",
+    icon: ArrowDownLeft,
+    txns: [
+      { merchant: "Acme Corp — Payroll", amount: 3850.0, date: "Jun 01", category: "Income", confidence: 1 },
+      { merchant: "Acme Corp — Payroll", amount: 3850.0, date: "Jun 15", category: "Income", confidence: 1 },
+      { merchant: "Stripe Payout — Side gig", amount: 412.5, date: "Jun 18", category: "Income", confidence: 0.96 },
+      { merchant: "Venmo from J. Lee", amount: 60.0, date: "Jun 09", category: "Income", confidence: 0.84 },
+    ],
+  },
   {
     name: "Bills & Utilities",
     color: "oklch(0.72 0.13 165)",
@@ -110,6 +124,22 @@ function Confirm() {
     categories
       .flatMap((c) => c.txns)
       .reduce((s, t) => s + t.confidence, 0) / totalTxns;
+  const totalIncome = categories
+    .filter((c) => c.kind === "income")
+    .flatMap((c) => c.txns)
+    .reduce((s, t) => s + t.amount, 0);
+  const totalExpenses = categories
+    .filter((c) => c.kind !== "income")
+    .flatMap((c) => c.txns)
+    .reduce((s, t) => s + t.amount, 0);
+  const net = totalIncome - totalExpenses;
+
+  const handleContinue = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("pockhet:confirmed", "1");
+    }
+    navigate({ to: "/processing" });
+  };
 
   return (
     <PhoneShell>
@@ -132,7 +162,39 @@ function Confirm() {
             . Tap any category to review.
           </p>
 
-          <div className="mt-5 flex items-start gap-3 rounded-2xl bg-accent-soft p-3 ring-1 ring-accent/20">
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="rounded-2xl bg-card p-3 ring-1 ring-border">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                Income
+              </p>
+              <p className="mt-1 text-[13px] font-semibold tabular-nums text-emerald-600">
+                +${totalIncome.toFixed(0)}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-card p-3 ring-1 ring-border">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                Expenses
+              </p>
+              <p className="mt-1 text-[13px] font-semibold tabular-nums text-foreground">
+                −${totalExpenses.toFixed(0)}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-card p-3 ring-1 ring-border">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                Net
+              </p>
+              <p
+                className={
+                  "mt-1 text-[13px] font-semibold tabular-nums " +
+                  (net >= 0 ? "text-emerald-600" : "text-red-600")
+                }
+              >
+                {net >= 0 ? "+" : "−"}${Math.abs(net).toFixed(0)}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 flex items-start gap-3 rounded-2xl bg-accent-soft p-3 ring-1 ring-accent/20">
             <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground">
               <Sparkles className="size-4" strokeWidth={2.25} />
             </div>
@@ -203,8 +265,13 @@ function Confirm() {
                               </span>
                             </div>
                           </div>
-                          <span className="text-[13px] font-semibold tabular-nums">
-                            ${t.amount.toFixed(2)}
+                          <span
+                            className={
+                              "text-[13px] font-semibold tabular-nums " +
+                              (cat.kind === "income" ? "text-emerald-600" : "")
+                            }
+                          >
+                            {cat.kind === "income" ? "+" : ""}${t.amount.toFixed(2)}
                           </span>
                           <button
                             type="button"
@@ -234,7 +301,7 @@ function Confirm() {
             </button>
             <button
               type="button"
-              onClick={() => navigate({ to: "/home" })}
+              onClick={handleContinue}
               className="flex h-12 flex-[1.6] items-center justify-center gap-2 rounded-2xl bg-foreground text-[13.5px] font-medium text-background"
             >
               <Check className="size-4" strokeWidth={2.5} />

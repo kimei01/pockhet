@@ -19,20 +19,34 @@ const steps = [
 ];
 
 function Processing() {
-  const [active, setActive] = useState(0);
+  const confirmed =
+    typeof window !== "undefined" &&
+    sessionStorage.getItem("pockhet:confirmed") === "1";
+  // Phase 1 (pre-confirm): only run step 0 (Categorizing), then go to /confirm.
+  // Phase 2 (post-confirm): start at step 1, run the rest, then go to /home.
+  const phaseStart = confirmed ? 1 : 0;
+  const phaseEnd = confirmed ? steps.length : 1;
+  const [active, setActive] = useState(phaseStart);
   const navigate = useNavigate();
   const fast = typeof window !== "undefined" && isDemo();
   const stepMs = fast ? 380 : 850;
   const finishMs = fast ? 300 : 600;
 
   useEffect(() => {
-    if (active >= steps.length) {
-      const t = setTimeout(() => navigate({ to: "/confirm" }), finishMs);
+    if (active >= phaseEnd) {
+      const t = setTimeout(() => {
+        if (confirmed) {
+          sessionStorage.removeItem("pockhet:confirmed");
+          navigate({ to: "/home" });
+        } else {
+          navigate({ to: "/confirm" });
+        }
+      }, finishMs);
       return () => clearTimeout(t);
     }
     const t = setTimeout(() => setActive((a) => a + 1), stepMs);
     return () => clearTimeout(t);
-  }, [active, navigate, stepMs, finishMs]);
+  }, [active, navigate, stepMs, finishMs, confirmed, phaseEnd]);
 
   const progress = Math.min(100, (active / steps.length) * 100);
 
