@@ -124,6 +124,22 @@ function Confirm() {
     categories
       .flatMap((c) => c.txns)
       .reduce((s, t) => s + t.confidence, 0) / totalTxns;
+  const totalIncome = categories
+    .filter((c) => c.kind === "income")
+    .flatMap((c) => c.txns)
+    .reduce((s, t) => s + t.amount, 0);
+  const totalExpenses = categories
+    .filter((c) => c.kind !== "income")
+    .flatMap((c) => c.txns)
+    .reduce((s, t) => s + t.amount, 0);
+  const net = totalIncome - totalExpenses;
+
+  const handleContinue = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("pockhet:confirmed", "1");
+    }
+    navigate({ to: "/processing" });
+  };
 
   return (
     <PhoneShell>
