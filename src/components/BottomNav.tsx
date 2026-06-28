@@ -169,10 +169,10 @@ function AddSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <div
       aria-hidden={!open}
-      className={
-        "pointer-events-none fixed inset-0 z-50 transition " +
-        (open ? "pointer-events-auto" : "")
-      }
+  className={
+    "fixed inset-0 z-50 transition " +
+    (open ? "pointer-events-auto" : "pointer-events-none")
+  }
     >
       {/* Backdrop */}
       <button
