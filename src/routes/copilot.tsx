@@ -153,9 +153,15 @@ function Bubble({ msg }: { msg: Msg }) {
         <div className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
           <Sparkles className="size-3.5" strokeWidth={2.5} />
         </div>
-        <div className="max-w-[85%] text-[13.5px] leading-relaxed text-foreground">
-          {msg.text}
-        </div>
+        <div
+  className="max-w-[85%] text-[13.5px] leading-relaxed text-foreground"
+  dangerouslySetInnerHTML={{
+    __html: msg.text
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/\n/g, "<br/>"),
+  }}
+/>
       </div>
     );
   }
