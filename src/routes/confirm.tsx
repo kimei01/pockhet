@@ -162,7 +162,39 @@ function Confirm() {
             . Tap any category to review.
           </p>
 
-          <div className="mt-5 flex items-start gap-3 rounded-2xl bg-accent-soft p-3 ring-1 ring-accent/20">
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="rounded-2xl bg-card p-3 ring-1 ring-border">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                Income
+              </p>
+              <p className="mt-1 text-[13px] font-semibold tabular-nums text-emerald-600">
+                +${totalIncome.toFixed(0)}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-card p-3 ring-1 ring-border">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                Expenses
+              </p>
+              <p className="mt-1 text-[13px] font-semibold tabular-nums text-foreground">
+                −${totalExpenses.toFixed(0)}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-card p-3 ring-1 ring-border">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                Net
+              </p>
+              <p
+                className={
+                  "mt-1 text-[13px] font-semibold tabular-nums " +
+                  (net >= 0 ? "text-emerald-600" : "text-red-600")
+                }
+              >
+                {net >= 0 ? "+" : "−"}${Math.abs(net).toFixed(0)}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 flex items-start gap-3 rounded-2xl bg-accent-soft p-3 ring-1 ring-accent/20">
             <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground">
               <Sparkles className="size-4" strokeWidth={2.25} />
             </div>
