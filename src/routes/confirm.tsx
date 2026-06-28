@@ -41,9 +41,22 @@ type Txn = {
 const categories: {
   name: string;
   color: string;
+  kind: "income" | "expense";
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   txns: Txn[];
 }[] = [
+  {
+    name: "Income",
+    color: "oklch(0.72 0.15 145)",
+    kind: "income",
+    icon: ArrowDownLeft,
+    txns: [
+      { merchant: "Acme Corp — Payroll", amount: 3850.0, date: "Jun 01", category: "Income", confidence: 1 },
+      { merchant: "Acme Corp — Payroll", amount: 3850.0, date: "Jun 15", category: "Income", confidence: 1 },
+      { merchant: "Stripe Payout — Side gig", amount: 412.5, date: "Jun 18", category: "Income", confidence: 0.96 },
+      { merchant: "Venmo from J. Lee", amount: 60.0, date: "Jun 09", category: "Income", confidence: 0.84 },
+    ],
+  },
   {
     name: "Bills & Utilities",
     color: "oklch(0.72 0.13 165)",
