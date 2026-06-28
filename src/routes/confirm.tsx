@@ -41,7 +41,7 @@ type Txn = {
 const categories: {
   name: string;
   color: string;
-  kind: "income" | "expense";
+  kind?: "income" | "expense";
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   txns: Txn[];
 }[] = [
