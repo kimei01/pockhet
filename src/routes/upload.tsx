@@ -19,16 +19,19 @@ const recent = [
 
 function Upload() {
   const navigate = useNavigate();
+  const router = useRouter();
   return (
     <PhoneShell>
       <div className="flex flex-1 flex-col px-6 pt-14 pb-8">
         <div className="flex items-center justify-between">
-          <Link
-            to="/"
+          <button
+            type="button"
+            onClick={() => router.history.back()}
+            aria-label="Go back"
             className="flex size-10 items-center justify-center rounded-full bg-muted text-foreground"
           >
             <ArrowLeft className="size-4" />
-          </Link>
+          </button>
           <span className="text-xs font-medium text-muted-foreground">Step 1 of 3</span>
         </div>
 
