@@ -3,6 +3,7 @@ import { AppScreen } from "@/components/AppScreen";
 import { useState } from "react";
 import { ArrowUp, Sparkles, Check, Plane } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { sendToGemini } from "@/lib/gemini";
 
 export const Route = createFileRoute("/copilot")({
   head: () => ({ meta: [{ title: "Copilot — Pockhet" }] }),
@@ -48,18 +49,18 @@ function Copilot() {
   const [messages, setMessages] = useState<Msg[]>(initial);
   const [input, setInput] = useState("");
 
-  function send(text: string) {
+  async function send(text: string) {
     const t = text.trim();
     if (!t) return;
-    setMessages((m) => [
-      ...m,
-      { role: "user", text: t },
-      {
-        role: "ai",
-        text: "Got it — analyzing your data now. (Demo response — connect your AI provider to enable live replies.)",
-      },
-    ]);
     setInput("");
+    setMessages((m) => [...m, { role: "user", text: t }]);
+    setMessages((m) => [...m, { role: "ai", text: "Thinking…" }]);
+    try {
+      const reply = await sendToGemini(messages, t);
+      setMessages((m) => [...m.slice(0, -1), { role: "ai", text: reply }]);
+    } catch {
+      setMessages((m) => [...m.slice(0, -1), { role: "ai", text: "Something went wrong. Please try again." }]);
+    }
   }
 
   return (
