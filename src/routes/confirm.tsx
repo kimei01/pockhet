@@ -301,7 +301,7 @@ function Confirm() {
             </button>
             <button
               type="button"
-              onClick={() => navigate({ to: "/home" })}
+              onClick={handleContinue}
               className="flex h-12 flex-[1.6] items-center justify-center gap-2 rounded-2xl bg-foreground text-[13.5px] font-medium text-background"
             >
               <Check className="size-4" strokeWidth={2.5} />
