@@ -31,13 +31,18 @@ export function BottomNav() {
     setOpen(false);
   }, [pathname]);
 
-  // Lock background scroll while open
+  // Lock background scroll while open + close on Escape
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
     };
   }, [open]);
 

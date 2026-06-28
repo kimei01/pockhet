@@ -27,7 +27,7 @@ function Processing() {
 
   useEffect(() => {
     if (active >= steps.length) {
-      const t = setTimeout(() => navigate({ to: "/home" }), finishMs);
+      const t = setTimeout(() => navigate({ to: "/confirm" }), finishMs);
       return () => clearTimeout(t);
     }
     const t = setTimeout(() => setActive((a) => a + 1), stepMs);
