@@ -14,6 +14,7 @@ import {
   Film,
   Zap,
   CreditCard,
+  ArrowDownLeft,
 } from "lucide-react";
 
 export const Route = createFileRoute("/confirm")({
