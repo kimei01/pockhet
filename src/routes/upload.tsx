@@ -90,11 +90,11 @@ function Upload() {
         </div>
 
         <button
-          onClick={() => navigate({ to: "/processing" })}
-          className="mt-auto flex h-14 items-center justify-center rounded-2xl bg-foreground text-[15px] font-medium text-background"
-        >
-          Analyze My Finances
-        </button>
+  onClick={() => navigate({ to: "/processing" })}
+  className="mt-8 flex h-14 w-full shrink-0 items-center justify-center rounded-2xl bg-foreground text-[15px] font-medium text-background"
+>
+  Analyze My Finances
+</button>
       </div>
     </PhoneShell>
   );
