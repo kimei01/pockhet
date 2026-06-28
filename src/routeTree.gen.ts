@@ -15,6 +15,7 @@ import { Route as ProcessingRouteImport } from './routes/processing'
 import { Route as IntelligenceRouteImport } from './routes/intelligence'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as ConfirmRouteImport } from './routes/confirm'
 import { Route as BudgetRouteImport } from './routes/budget'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -48,6 +49,11 @@ const CopilotRoute = CopilotRouteImport.update({
   path: '/copilot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfirmRoute = ConfirmRouteImport.update({
+  id: '/confirm',
+  path: '/confirm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BudgetRoute = BudgetRouteImport.update({
   id: '/budget',
   path: '/budget',
@@ -62,6 +68,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/budget': typeof BudgetRoute
+  '/confirm': typeof ConfirmRoute
   '/copilot': typeof CopilotRoute
   '/home': typeof HomeRoute
   '/intelligence': typeof IntelligenceRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/budget': typeof BudgetRoute
+  '/confirm': typeof ConfirmRoute
   '/copilot': typeof CopilotRoute
   '/home': typeof HomeRoute
   '/intelligence': typeof IntelligenceRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/budget': typeof BudgetRoute
+  '/confirm': typeof ConfirmRoute
   '/copilot': typeof CopilotRoute
   '/home': typeof HomeRoute
   '/intelligence': typeof IntelligenceRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/budget'
+    | '/confirm'
     | '/copilot'
     | '/home'
     | '/intelligence'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/budget'
+    | '/confirm'
     | '/copilot'
     | '/home'
     | '/intelligence'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/budget'
+    | '/confirm'
     | '/copilot'
     | '/home'
     | '/intelligence'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BudgetRoute: typeof BudgetRoute
+  ConfirmRoute: typeof ConfirmRoute
   CopilotRoute: typeof CopilotRoute
   HomeRoute: typeof HomeRoute
   IntelligenceRoute: typeof IntelligenceRoute
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CopilotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/confirm': {
+      id: '/confirm'
+      path: '/confirm'
+      fullPath: '/confirm'
+      preLoaderRoute: typeof ConfirmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/budget': {
       id: '/budget'
       path: '/budget'
@@ -198,6 +218,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BudgetRoute: BudgetRoute,
+  ConfirmRoute: ConfirmRoute,
   CopilotRoute: CopilotRoute,
   HomeRoute: HomeRoute,
   IntelligenceRoute: IntelligenceRoute,
@@ -208,13 +229,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
