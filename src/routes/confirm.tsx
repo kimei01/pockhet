@@ -265,8 +265,13 @@ function Confirm() {
                               </span>
                             </div>
                           </div>
-                          <span className="text-[13px] font-semibold tabular-nums">
-                            ${t.amount.toFixed(2)}
+                          <span
+                            className={
+                              "text-[13px] font-semibold tabular-nums " +
+                              (cat.kind === "income" ? "text-emerald-600" : "")
+                            }
+                          >
+                            {cat.kind === "income" ? "+" : ""}${t.amount.toFixed(2)}
                           </span>
                           <button
                             type="button"
